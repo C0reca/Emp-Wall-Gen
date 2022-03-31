@@ -82,18 +82,10 @@
         }
 
 
-
-        function data_json() {
-
-
-
-        }
-
-
-
         function imginfo(imgs) {
             document.getElementById("badges").innerHTML = '';
-            fetch("./json/Person.json")
+            let myRequest_person = new Request("https://github.com/C0reca/Emp-Wall-Gen/blob/main/json/Person.json");
+            fetch(myRequest_person)
                 .then(response => {
                     return response.json();
                 })
