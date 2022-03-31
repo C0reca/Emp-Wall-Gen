@@ -1,0 +1,234 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+</head>
+
+<body>
+    <table style="width: 100%;">
+        <tr class="top-side">
+            <td>
+                <a href="https://devscope.net/">
+                    <img src="img/logo_white.png" width="20%" style="padding-left: 20px;">
+                </a>
+            </td>
+            <td>
+                <h1 class="title">Employee Wall Generetor</h1>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 60%;" class="td-grid-mansory">
+                <div class="grid" id="id-grid">
+                    <div class="grid-sizer"></div>
+                </div>
+            </td>
+            <td class="left-side">
+                <div class="left-button">
+                    <div class="search">
+                        <input type="text" class="searchTerm" id="bar" placeholder="Search for names...">
+                        <button type="submit" class="searchButton" onclick="searchbar()">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <div class="depart-div">
+                        <button class="depart-butt" onclick="filtro_depart('Devscope')">Devscope</button><br>
+                        <button class="depart-butt" onclick="filtro_depart('Academy')">Academy</button><br>
+                        <button class="depart-butt" onclick="filtro_depart('Administrative')">Administrative</button><br>
+                        <button class="depart-butt" onclick="filtro_depart('Beedigital')">Beedigital</button><br>
+                        <button class="depart-butt" onclick="filtro_depart('BI')">BI</button><br>
+                        <button class="depart-butt" onclick="filtro_depart('BizTalk')">BizTalk</button><br>
+                        <button class="depart-butt" onclick="filtro_depart('HR')">HR</button><br>
+                        <button class="depart-butt" onclick="filtro_depart('IT Helpdesk')">IT Helpdesk</button><br>
+                        <button class="depart-butt" onclick="filtro_depart('Marketing')">Marketing</button><br>
+                        <button class="depart-butt" onclick="filtro_depart('Portals & Collaboration')">Portals &
+                            Collaboration</button><br>
+                        <button class="depart-butt" onclick="filtro_depart('Products')">Products</button><br>
+                        <button class="depart-butt" onclick="filtro_depart('Research')">Research</button><br>
+                    </div>
+                    <button type="button" class="wallpng">
+                        <a href="img/out.gif" class="a-wallpng" download="">Guardar gif</a>
+                    </button>
+                </div>
+
+            </td>
+
+        </tr>
+        <tr class="container" id="container" style="width: 20%;">
+            <td>
+                <img id="expandedImg" class="expandedImg">
+            </td>
+            <td>
+                <div id="imgtext"></div>
+                <div id="badges"></div>
+            </td>
+
+        </tr>
+    </table>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://masonry.desandro.com/masonry.pkgd.js"></script>
+
+    <script>
+        function closebt() {
+            document.getElementById("expandedImg").parentElement.style.display = 'none';
+            document.getElementById("imgtext").innerHTML = '';
+            document.getElementById("badges").innerHTML = '';
+        }
+
+
+
+        function data_json() {
+
+
+
+        }
+
+
+
+        function imginfo(imgs) {
+            document.getElementById("badges").innerHTML = '';
+            fetch("./json/Person.json")
+                .then(response => {
+                    return response.json();
+                })
+                .then(jsondata => {
+                    var expandImg = document.getElementById("expandedImg");
+                    var imgText = document.getElementById("imgtext");
+                    for (var item of jsondata) {
+                        if (item.Alias == imgs.alt) {
+                            expandImg.src = item.Photos_Links.PhotoWhite;
+
+                            imgText.innerHTML = (`
+                                <h1>${item.Title}</h1>
+                                <h2>Information</h2>
+                                <a><strong>Company Email: </strong>${item.CompanyEmail}</a><br>
+                                <a><strong>Alias: </strong>${item.Alias}</a><br>
+                                <a><strong>Job: </strong>${item.Job}</a><br>
+                                <a><strong>Department: </strong>${item.Department}</a><br>
+                                <a><strong>Superior: </strong>${item.Superior}</a><br>
+                                <h2>Photos URL</h2>
+                                <a><strong>Photo96: </strong>${item.Photos_Links.Photo96}</a><br>
+                                <a><strong>PhotoWhite: </strong>${item.Photos_Links.PhotoWhite}</a><br>
+                                <a><strong>PhotoAD: </strong>${item.Photos_Links.PhotoAD}</a><br>
+                                <a><strong>Photo365: </strong>${item.Photos_Links.Photo365}</a><br>
+                                `)
+                            if (item.Associate > 0 || item.Fundamentals > 0 || item.Expert > 0) {
+                                document.getElementById('imgtext').insertAdjacentHTML('beforeend', '<h2>Badges</h2>');
+                                if (item.Associate > 0) {
+                                    var badge = '<img src="img/associate.png" width= 20% height= auto >'
+                                    document.getElementById('badges').insertAdjacentHTML('afterbegin', badge);
+                                }
+                                if (item.Fundamentals > 0) {
+                                    var badge = '<img src="img/fundamentals.png" width= 20% height= auto >'
+                                    document.getElementById('badges').insertAdjacentHTML('afterbegin', badge);
+                                }
+                                if (item.Expert > 0) {
+                                    var badge = '<img src="img/expert.png" width= 20% height= auto >'
+                                    document.getElementById('badges').insertAdjacentHTML('afterbegin', badge);
+                                }
+                            }
+                        };
+                    };
+                    expandImg.parentElement.style.display = "block";
+
+                });
+
+
+
+        }
+
+        function searchbar() {
+            var search = document.getElementById('bar').value;
+            closebt()
+            filtro_depart(search)
+        }
+
+        var array = [];
+        let myRequest = new Request("https://products.devscope.net/profiles/employees.json");
+
+        function shuffle(array) {
+            var shuffledArray = array.sort((a, b) => 0.5 - Math.random());
+            return shuffledArray
+        }
+
+        function getItemElement(array) {
+            shuffledArray = shuffle(array)
+            var msnry = new Masonry('.grid', {
+                columnWidth: '.grid-sizer',
+                percentPosition: true
+            });
+
+            for (var link of shuffledArray) {
+                var img = document.createElement('img');
+                img.src = link.Photo365
+                img.id = "id-img"
+                img.style = 'width: 120px; height: 120px;'
+                img.setAttribute("onclick", "imginfo(this)")
+                img.alt = link.Alias
+                var itemElem = img;
+                msnry.element.insertBefore(itemElem, msnry.element.firstChild);
+                msnry.prepended(itemElem);
+            };
+
+        };
+
+        fetch(myRequest)
+            .then(function(resp) {
+                return resp.json();
+            })
+            .then(function(data) {
+                for (var dados of data) {
+                    func = new Object
+                    func.CompanyEmail = dados.CompanyEmail;
+                    func.Title = dados.Title;
+                    func.job = dados.Job;
+                    func.Department = dados.Department;
+                    func.Superior = dados.Superior;
+                    func.Alias = dados.Alias;
+                    func.Photo96 = dados.Photo96;
+                    func.PhotoWhite = dados.PhotoWhite;
+                    func.PhotoAD = dados.PhotoAD;
+                    func.Photo365 = dados.Photo365;
+                    array.push(func)
+                }
+                var id_grid = document.querySelector('.grid')
+                var div = '<img src="img/out.gif"  width= 100% height= auto>'
+                id_grid.insertAdjacentHTML('afterbegin', div);
+            });
+
+
+        function filtro_depart(depart_job) {
+            closebt()
+            document.getElementById("id-grid").innerHTML = "";
+
+            var id_grid = document.querySelector('.grid')
+            var div = '<div class="grid-sizer"></div>'
+            id_grid.insertAdjacentHTML('afterbegin', div);
+
+            arrayFil = []
+            for (var area of array) {
+                if (area.Department.toLowerCase() == depart_job.toLowerCase()) {
+                    arrayFil.push(area)
+                }
+                if ((area.Title).includes(depart_job)) {
+                    arrayFil.push(area)
+                }
+            }
+            if (depart_job == "Devscope") {
+                var id_grid = document.querySelector('.grid')
+                var div = '<img src="img/out.gif" width= 100% height= auto >'
+                id_grid.insertAdjacentHTML('afterbegin', div);
+            } else {
+                getItemElement(arrayFil)
+            }
+        }
+    </script>
+</body>
+
+</html>
