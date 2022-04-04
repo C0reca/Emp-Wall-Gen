@@ -53,5 +53,5 @@ jobs:
         with:
           app-name: 'emp-wall-gen'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_F805EBEBEE6A460B990964288CE7ADF8 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_BD8C1AF60AE14457AB1C4979F6C714F9 }}
           package: .
