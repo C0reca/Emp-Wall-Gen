@@ -84,7 +84,7 @@
 
         function imginfo(imgs) {
             document.getElementById("badges").innerHTML = '';
-            let myRequest_person = new Request("https://raw.githubusercontent.com/C0reca/Emp-Wall-Gen/main/json/Person.json");
+            let myRequest_person = new Request("json/Person.json");
             fetch(myRequest_person)
                 .then(response => {
                     return response.json();
@@ -142,7 +142,7 @@
         }
 
         var array = [];
-        let myRequest = new Request("https://raw.githubusercontent.com/C0reca/Emp-Wall-Gen/main/json/Person.json");
+        let myRequest = new Request("json/Person.json");
 
         function shuffle(array) {
             var shuffledArray = array.sort((a, b) => 0.5 - Math.random());
@@ -209,9 +209,8 @@
                 if (area.Department.toLowerCase() == depart_job.toLowerCase()) {
                     arrayFil.push(area)
                 }
-                if ((area.Title.toLowerCase()).includes(depart_job.toLowerCase())) {
+                if ((area.Title).includes(depart_job)) {
                     arrayFil.push(area)
-
                 }
             }
             if (depart_job == "Devscope") {

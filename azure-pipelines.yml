@@ -1,0 +1,17 @@
+trigger:
+- main
+
+pool:
+  name: DvsBuild
+  demands: docker
+
+steps:
+- task: Docker@2
+  inputs:
+    containerRegistry: 'EmpWallGenTest'
+    repository: 'employee-wall-generator'
+    command: 'buildAndPush'
+    Dockerfile: 'Dockerfile'
+    tags: |
+      $(Build.BuildId)
+      latest

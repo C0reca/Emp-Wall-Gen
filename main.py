@@ -24,8 +24,8 @@ for x in data_json:
     name = x['Alias'] 
     response = requests.get(url)
     grid = Image.new('RGB',(240,240),(255, 0, 0))
-    grid.save("images\\"+name+".png")
-    file = open("images\\"+name+".png", "wb")
+    grid.save("images/"+name+".png")
+    file = open("images/"+name+".png", "wb")
     file.write(response.content)
     file.close()
 
@@ -35,11 +35,11 @@ def grid_pos_random(cols,rows):
     return rand_cols,rand_rows
     
 def grid_depart():
-    arr = os.listdir('.\images')
+    arr = os.listdir('./images')
     depart=[]
     for name in arr:
         try:
-            img = Image.open("images\\"+name)
+            img = Image.open("images/"+name)
         except:
             continue
         img = img.convert('L')
@@ -79,12 +79,12 @@ for img in depart:
     canvas_list.append(canvas)
     i+=1
 
-grid.save("Img/out.gif", transparency=0,save_all=True, append_images=canvas_list, duration=100, loop=0)
+grid.save("img/out.gif", transparency=0,save_all=True, append_images=canvas_list, duration=100, loop=0)
 
 def delete():
-    arr = os.listdir('.\images')
+    arr = os.listdir('./images')
     for name in arr:
-        os.remove("images\\"+name)
+        os.remove("images/"+name)
 
 delete()
 os.rmdir('images')
