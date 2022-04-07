@@ -35,21 +35,8 @@
                         </button>
                     </div>
 
-                    <div class="depart-div">
-                        <button class="depart-butt" onclick="filtro_depart('Devscope')">Devscope</button><br>
-                        <button class="depart-butt" onclick="filtro_depart('Academy')">Academy</button><br>
-                        <button class="depart-butt" onclick="filtro_depart('Administrative')">Administrative</button><br>
-                        <button class="depart-butt" onclick="filtro_depart('Beedigital')">Beedigital</button><br>
-                        <button class="depart-butt" onclick="filtro_depart('BI')">BI</button><br>
-                        <button class="depart-butt" onclick="filtro_depart('BizTalk')">BizTalk</button><br>
-                        <button class="depart-butt" onclick="filtro_depart('HR')">HR</button><br>
-                        <button class="depart-butt" onclick="filtro_depart('IT Helpdesk')">IT Helpdesk</button><br>
-                        <button class="depart-butt" onclick="filtro_depart('Marketing')">Marketing</button><br>
-                        <button class="depart-butt" onclick="filtro_depart('Portals & Collaboration')">Portals &
-                            Collaboration</button><br>
-                        <button class="depart-butt" onclick="filtro_depart('Products')">Products</button><br>
-                        <button class="depart-butt" onclick="filtro_depart('Research')">Research</button><br>
-                    </div>
+                    <div class="depart-div"></div>
+
                     <button type="button" class="wallpng">
                         <a href="img/out.gif" class="a-wallpng" download="">Guardar gif</a>
                     </button>
@@ -193,6 +180,17 @@
                 var id_grid = document.querySelector('.grid')
                 var div = '<img src="img/out.gif"  width= 100% height= auto>'
                 id_grid.insertAdjacentHTML('afterbegin', div);
+
+                var menu_depart = document.querySelector('.depart-div')
+                depa = []
+                for (var dep of data) {
+                    if (depa.includes(dep.Department) == false) {
+                        var div = '<button class="depart-butt" onclick="filtro_depart(' + "'" + dep.Department + "'" + ')">' + dep.Department + '</button><br>'
+                        menu_depart.insertAdjacentHTML('afterbegin', div);
+                        depa.push(dep.Department)
+                    }
+                }
+
             });
 
 
